@@ -1,0 +1,23 @@
+version: '3'
+services:
+  openvpn:
+    build:
+      context: .
+    privileged: true
+    container_name: openvpn
+    volumes:
+      - ./ccd:/etc/openvpn/ccd
+    ports:
+      - "1194:1194/udp"
+    environment:
+      # subnet /24 without mask suffix"
+      # Do not add it to forwardSubnets:
+      SUBNET: "192.168.254.0"
+      # comma separated without spaces
+      forwardSubnets: "10.152.0.0/16,10.151.0.0/16"
+      # KeyCloak envs
+      ADMIN_PASSWORD:
+      KEYCLOAK_URL: https://keycloak-auth.mycompany.com
+      KEYCLOAK_REALM: Openvpn
+      KEYCLOAK_CLIENT_ID: openvpn
+    restart: always
