@@ -20,8 +20,8 @@ get_token() {
    curl --silent --request POST \
         --url "${KEYCLOAK_URL}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token" \
         --data "client_id=${KEYCLOAK_CLIENT_ID}" \
-        --data "username=$1" \
-        --data "password=$2" \
+        --data-urlencode "username=$1" \
+        --data-urlencode "password=$2" \
         --data 'grant_type=password' | jq .access_token | xargs echo -n > /etc/openvpn/tmp/$1
 }
 
