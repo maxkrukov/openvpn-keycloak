@@ -9,6 +9,8 @@ convert_mask() {
  fi
 }
 
+cp -r /etc/openvpn-bootstrap/* /etc/openvpn/
+
 sed -i "s/<subnet>/${SUBNET}/g" /etc/openvpn/server.conf
 sed -i "s/<server_ip>/$(curl --silent http://ifconfig.me)/g" /etc/openvpn/server.conf
 sed -i "s/<server_ip>/$(curl --silent http://ifconfig.me)/g" /etc/openvpn/client.ovpn
@@ -19,6 +21,7 @@ cat /etc/openvpn/server/ca.crt >> /etc/openvpn/client.ovpn
 echo '</ca>'                   >> /etc/openvpn/client.ovpn
 
 sed -i "s/<ADMIN_PASSWORD>/${ADMIN_PASSWORD}/" /etc/openvpn/server.conf
+sed -i "s/<ADMIN_IPs>/${ADMIN_IPs}/" /etc/openvpn/server.conf
 sed -i "s@<KEYCLOAK_URL>@${KEYCLOAK_URL}@" /etc/openvpn/server.conf
 sed -i "s/<KEYCLOAK_REALM>/${KEYCLOAK_REALM}/" /etc/openvpn/server.conf
 sed -i "s/<KEYCLOAK_CLIENT_ID>/${KEYCLOAK_CLIENT_ID}/" /etc/openvpn/server.conf

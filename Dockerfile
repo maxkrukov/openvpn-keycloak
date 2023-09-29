@@ -7,9 +7,7 @@ RUN cd /etc/openvpn/ && \
     tar -xf tar -xf EasyRSA-3.1.2.tgz && \
     mv EasyRSA-3.1.2/ easy-rsa/; rm -f EasyRSA-3.1.2.tgz
     
-COPY data/vars /etc/openvpn/easy-rsa/vars
-COPY data/server.conf /etc/openvpn/server.conf
-COPY data/keycloak_verify.sh /etc/openvpn/scripts/keycloak_verify.sh
+COPY openvpn-bootstrap/vars /etc/openvpn/easy-rsa/vars
 
 RUN cd /etc/openvpn/easy-rsa && ./easyrsa init-pki  && \
     ./easyrsa --batch --req-cn=cn_MqZtFvwq35w1vtVX build-ca nopass && \
@@ -28,9 +26,4 @@ RUN cd /etc/openvpn/easy-rsa && ./easyrsa init-pki  && \
 
 RUN chown nobody:nobody -R /etc/openvpn
 
-COPY data/client.ovpn /etc/openvpn/client.ovpn
-
-COPY data/run.sh /etc/openvpn/run.sh
-RUN chmod 755 /etc/openvpn/easy-rsa/vars /etc/openvpn/scripts/keycloak_verify.sh /etc/openvpn/run.sh
-
-CMD /etc/openvpn/run.sh
+CMD /run.sh

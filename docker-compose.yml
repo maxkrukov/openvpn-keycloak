@@ -6,7 +6,9 @@ services:
     privileged: true
     container_name: openvpn
     volumes:
-      - ./ccd:/etc/openvpn/ccd
+      - ./openvpn-bootstrap:/etc/openvpn-bootstrap
+      - ./run.sh:/run.sh
+      - ./tmp:/tmp
     ports:
       - "1194:1194/udp"
     environment:
@@ -17,7 +19,9 @@ services:
       forwardSubnets: "10.152.0.0/16,10.151.0.0/16"
       # KeyCloak envs
       ADMIN_PASSWORD:
+      ADMIN_IPs:
       KEYCLOAK_URL: https://keycloak-auth.mycompany.com
       KEYCLOAK_REALM: Openvpn
       KEYCLOAK_CLIENT_ID: openvpn
     restart: always
+

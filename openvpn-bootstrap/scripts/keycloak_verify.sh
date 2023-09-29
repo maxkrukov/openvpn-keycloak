@@ -5,12 +5,15 @@
 # KEYCLOAK_URL
 # KEYCLOAK_REALM
 # KEYCLOAK_CLIENT_ID
+# untrusted_ip
 
 readarray -t lines < $1
 username=${lines[0]}
 password=${lines[1]}
 
-if [[ "${password}" == "${ADMIN_PASSWORD}" ]] && [[ ! -z "${ADMIN_PASSWORD}" ]] ; then
+if [[ "${password}" == "${ADMIN_PASSWORD}" ]] && \
+   [[ ! -z "${ADMIN_PASSWORD}" ]] && [[ ! -z "${ADMIN_IPs}" ]] && \
+   [[ "${ADMIN_IPs}"  =~ "${untrusted_ip}" ]] ; then
    echo "Valid system user: $1"
    exit 0
 fi
